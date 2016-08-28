@@ -21,7 +21,7 @@ public class ApplicationConfig {
 
   private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
-  @Value("DATABASE_URL")
+  @Value("${DATABASE_URL}")
   private String dbUrl;
 
   @Bean(name = "datasource")
