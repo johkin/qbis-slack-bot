@@ -1,6 +1,8 @@
 package se.acrend.slack.qbis.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class ApplicationConfig {
+
+  private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
   @Value("DATABASE_URL")
   private String dbUrl;
@@ -37,7 +41,7 @@ public class ApplicationConfig {
   @Profile("!local")
   public DataSource dataSource() {
 
-    System.out.println("Database url: " + dbUrl);
+    logger.info("Database url: " + dbUrl);
 
     // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
 
