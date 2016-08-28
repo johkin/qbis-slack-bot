@@ -17,38 +17,37 @@ import javax.sql.DataSource;
 @Configuration
 public class ApplicationConfig {
 
-    @Value("DATABASE_URL")
-    private String dbUrl;
+  @Value("DATABASE_URL")
+  private String dbUrl;
 
-    @Bean(name = "datasource")
-    @Profile("local")
-    public DataSource localDataSource() {
+  @Bean(name = "datasource")
+  @Profile("local")
+  public DataSource localDataSource() {
 
-        // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+    // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
 
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase db = builder
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-        return db;
-    }
+    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+    EmbeddedDatabase db = builder
+        .setType(EmbeddedDatabaseType.H2)
+        .build();
+    return db;
+  }
 
-    @Bean(name = "datasource")
-    @Profile("!local")
-    public DataSource dataSource() {
+  @Bean(name = "datasource")
+  @Profile("!local")
+  public DataSource dataSource() {
 
-        System.out.println("Database url: " + dbUrl);
+    System.out.println("Database url: " + dbUrl);
 
-        // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+    // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
 
-        BasicDataSource ds = new BasicDataSource();
+    BasicDataSource ds = new BasicDataSource();
 
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl(dbUrl);
+    ds.setDriverClassName("org.postgresql.Driver");
+    ds.setUrl(dbUrl);
 
-    }
-
-
+    return ds;
+  }
 
 
 }
