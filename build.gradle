@@ -10,13 +10,10 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "se.transmode.gradle:gradle-docker:1.2"
     }
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'docker'
 apply plugin: 'spring-boot'
 
 
@@ -24,13 +21,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
 
 dependencies {
-    compile('me.ramswaroop.jbot:jbot-core:2.0.1-SNAPSHOT')
+    compile('me.ramswaroop.jbot:jbot-core:3.0.0')
 
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
@@ -38,6 +34,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jetty")
 
     compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.data:spring-data-jpa")
+    compile("org.hibernate:hibernate-core:5.2.2.Final")
+    compile("org.postgresql:postgresql:9.4.1209")
 
     testCompile("junit:junit")
 }

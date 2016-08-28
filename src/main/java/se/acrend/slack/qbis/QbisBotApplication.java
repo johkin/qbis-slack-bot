@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication(scanBasePackages = {"se.acrend.slack.qbis",
-        "me.ramswaroop.jbot.slackbot.core"})
+        "me.ramswaroop.jbot.core"})
 public class QbisBotApplication {
     /**
      * Entry point of the application. Run this method to start the sample bots,

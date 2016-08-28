@@ -1,11 +1,11 @@
 package se.acrend.slack.qbis;
 
-import me.ramswaroop.jbot.slackbot.core.Bot;
-import me.ramswaroop.jbot.slackbot.core.Controller;
-import me.ramswaroop.jbot.slackbot.core.EventType;
-import me.ramswaroop.jbot.slackbot.core.SlackService;
-import me.ramswaroop.jbot.slackbot.core.models.Event;
-import me.ramswaroop.jbot.slackbot.core.models.Message;
+import me.ramswaroop.jbot.core.slack.Bot;
+import me.ramswaroop.jbot.core.slack.Controller;
+import me.ramswaroop.jbot.core.slack.EventType;
+import me.ramswaroop.jbot.core.slack.SlackService;
+import me.ramswaroop.jbot.core.slack.models.Event;
+import me.ramswaroop.jbot.core.slack.models.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
