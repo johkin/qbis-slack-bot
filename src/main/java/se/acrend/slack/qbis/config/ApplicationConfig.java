@@ -23,9 +23,6 @@ public class ApplicationConfig {
 
     private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
-    @Value("${DATABASE_URL}")
-    private String dbUrl;
-
     @Bean(name = "datasource")
     @Profile("local")
     public DataSource localDataSource() {
@@ -43,13 +40,16 @@ public class ApplicationConfig {
     @Profile("!local")
     public DataSource dataSource() throws URISyntaxException {
 
-        logger.info("Database url: " + dbUrl);
 
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+        logger.info("Database url: " + dbUrl);
+        logger.info("Database username: " + username);
+        logger.info("Database password: " + password);
 
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("org.postgresql.Driver");
