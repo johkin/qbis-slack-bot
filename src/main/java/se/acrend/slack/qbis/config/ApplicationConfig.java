@@ -12,6 +12,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  *
@@ -19,39 +21,44 @@ import javax.sql.DataSource;
 @Configuration
 public class ApplicationConfig {
 
-  private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
+    private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
-  @Value("${DATABASE_URL}")
-  private String dbUrl;
+    @Value("${DATABASE_URL}")
+    private String dbUrl;
 
-  @Bean(name = "datasource")
-  @Profile("local")
-  public DataSource localDataSource() {
+    @Bean(name = "datasource")
+    @Profile("local")
+    public DataSource localDataSource() {
 
-    // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+        // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
 
-    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    EmbeddedDatabase db = builder
-        .setType(EmbeddedDatabaseType.H2)
-        .build();
-    return db;
-  }
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .build();
+        return db;
+    }
 
-  @Bean(name = "datasource")
-  @Profile("!local")
-  public DataSource dataSource() {
+    @Bean(name = "datasource")
+    @Profile("!local")
+    public DataSource dataSource() throws URISyntaxException {
 
-    logger.info("Database url: " + dbUrl);
+        logger.info("Database url: " + dbUrl);
 
-    // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
-    BasicDataSource ds = new BasicDataSource();
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-    ds.setDriverClassName("org.postgresql.Driver");
-    ds.setUrl(dbUrl);
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName("org.postgresql.Driver");
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
 
-    return ds;
-  }
+        return basicDataSource;
+    }
 
 
 }
