@@ -24,6 +24,9 @@ repositories {
     mavenCentral()
 }
 
+bootRun {
+    systemProperties['spring.profiles.active']=project.gradle.startParameter.systemPropertiesArgs['spring.profiles.active'];
+}
 
 dependencies {
     compile('me.ramswaroop.jbot:jbot-core:3.0.0')
@@ -34,10 +37,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jetty")
 
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.data:spring-data-jpa")
-    compile("org.hibernate:hibernate-core:5.2.2.Final")
-    compile("org.postgresql:postgresql:9.4.1209")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile("org.apache.commons:commons-dbcp2:2.1.1")
+
+    runtime("org.postgresql:postgresql:9.4.1209")
+    runtime("com.h2database:h2")
 
     testCompile("junit:junit")
 }
