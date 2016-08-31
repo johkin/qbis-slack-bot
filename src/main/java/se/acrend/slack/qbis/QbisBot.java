@@ -35,14 +35,14 @@ public class QbisBot extends Bot {
         return this;
     }
 
-    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE})
-    public void onReceiveDM(WebSocketSession session, Event event) {
-        reply(session, event, new Message("Hej!\nVill du tidrapportera?"));
-    }
-
-    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE}, pattern = "(\\w+)\\W+(\\d+)h")
-    public void onReceiveDM(WebSocketSession session, Event event, Matcher matcher) {
-        reply(session, event,
-                new Message("Ok! " + matcher.group(2) + " timmar på projekt " + matcher.group(1)));
-    }
+//    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE})
+//    public void onReceiveDM(WebSocketSession session, Event event) {
+//        reply(session, event, new Message("Hej!\nVill du tidrapportera?"));
+//    }
+//
+//    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE}, pattern = "(\\w+)\\W+(\\d+)h")
+//    public void onReceiveDM(WebSocketSession session, Event event, Matcher matcher) {
+//        reply(session, event,
+//                new Message("Ok! " + matcher.group(2) + " timmar på projekt " + matcher.group(1)));
+//    }
 }
