@@ -24,7 +24,7 @@ public class QbisSickBot extends Bot {
     private String slackToken;
 
     @Autowired
-    private SlackService slackService;
+    private QbisSetupBot setupBot;
 
     @Override
     public String getSlackToken() {
@@ -36,15 +36,19 @@ public class QbisSickBot extends Bot {
         return this;
     }
 
-    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE},
+    @Controller(events = EventType.DIRECT_MESSAGE,
         pattern = "(sjuk|mår illa|mår dåligt)", next = "bekraftaSjuk")
     public void sjukStart(WebSocketSession session, Event event) {
+        if (!setupBot.isConfigured(event.getUserId())) {
+            setupBot.startSetup(session, event);
+            return;
+        }
         startConversation(event, "bekraftaSjuk");
         reply(session, event,
             new Message("Nämen, är du sjuk?"));
     }
 
-    @Controller(
+    @Controller(events = EventType.DIRECT_MESSAGE,
         next = "sjukHelaDagen")
     public void bekraftaSjuk(WebSocketSession session, Event event) {
         if (event.getText().toLowerCase().contains("nej")) {
@@ -58,7 +62,7 @@ public class QbisSickBot extends Bot {
         }
     }
 
-    @Controller(
+    @Controller(events = EventType.DIRECT_MESSAGE,
         next = "sjukTimmar")
     public void sjukHelaDagen(WebSocketSession session, Event event) {
         if (event.getText().toLowerCase().contains("nej")) {
@@ -72,16 +76,20 @@ public class QbisSickBot extends Bot {
         }
     }
 
-    @Controller
+    @Controller(events = EventType.DIRECT_MESSAGE)
     public void sjukTimmar(WebSocketSession session, Event event) {
         final Pattern pattern = Pattern.compile("\\D*(\\d+)\\D*");
 
         final Matcher matcher = pattern.matcher(event.getText());
+        if (matcher.matches()) {
+            final int timmar = Integer.parseInt(matcher.group(1));
 
-        final int timmar = Integer.parseInt(matcher.group(1));
-
-        reply(session, event,
-            new Message("Ok, " + timmar + " timmar är noterat. Krya på dig!"));
-        stopConversation(event);
+            reply(session, event,
+                    new Message("Ok, " + timmar + " timmar är noterat. Krya på dig!"));
+            stopConversation(event);
+        } else {
+            reply(session, event,
+                    new Message("Jag förstod inte riktigt, hur många timmar var du sjuk?"));
+        }
     }
 }

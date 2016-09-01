@@ -44,6 +44,7 @@ dependencies {
     runtime("com.h2database:h2")
 
     testCompile("junit:junit")
+    testCompile("org.mockito:mockito-all:1.10.19")
 }
 
 task wrapper(type: Wrapper) {

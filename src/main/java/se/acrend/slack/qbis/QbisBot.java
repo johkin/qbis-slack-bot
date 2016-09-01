@@ -35,7 +35,12 @@ public class QbisBot extends Bot {
         return this;
     }
 
-//    @Controller(events = {EventType.DIRECT_MENTION, EventType.DIRECT_MESSAGE})
+    @Controller(events = EventType.DIRECT_MENTION)
+    public void onReceiveDM(WebSocketSession session, Event event) {
+
+        reply(session, event, new Message("Hej!\nVill du tidrapportera?\nSlacka direkt till mig!"));
+    }
+//    @Controller(events = {EventType.DIRECT_MESSAGE}, pattern = "hej")
 //    public void onReceiveDM(WebSocketSession session, Event event) {
 //        reply(session, event, new Message("Hej!\nVill du tidrapportera?"));
 //    }

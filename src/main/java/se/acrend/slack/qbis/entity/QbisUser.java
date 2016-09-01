@@ -17,7 +17,7 @@ public class QbisUser implements Serializable {
     private long id;
 
     @Column(unique = true)
-    private String slackHandle;
+    private String slackId;
 
     private String company;
     private String username;
@@ -29,14 +29,6 @@ public class QbisUser implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getSlackHandle() {
-        return slackHandle;
-    }
-
-    public void setSlackHandle(String slackHandle) {
-        this.slackHandle = slackHandle;
     }
 
     public String getCompany() {
@@ -61,5 +53,13 @@ public class QbisUser implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSlackId() {
+        return slackId;
+    }
+
+    public void setSlackId(String slackId) {
+        this.slackId = slackId;
     }
 }

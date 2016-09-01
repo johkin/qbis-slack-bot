@@ -10,6 +10,6 @@ import se.acrend.slack.qbis.entity.QbisUser;
 @Repository
 public interface QbisUserRepository extends CrudRepository<QbisUser, Long> {
 
-    QbisUser findBySlackHandle(String slackHandle);
+    QbisUser findBySlackId(String slackId);
 
 }
